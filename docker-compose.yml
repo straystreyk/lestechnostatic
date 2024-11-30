@@ -5,6 +5,6 @@ services:
     ports:
       - "3000:80" # Внешний порт 80 мапится на внутренний порт 80 Nginx
     volumes:
-      - ./static:/usr/share/nginx/html # Монтируем статические файлы
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf # Монтируем конфигурацию Nginx
+      - ./static:/usr/share/nginx/html:ro # Монтируем статические файлы
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro # Монтируем конфигурацию Nginx
     restart: always
