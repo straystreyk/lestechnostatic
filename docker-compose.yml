@@ -3,7 +3,7 @@ services:
     image: nginx:1.27.3-alpine3.20-otel
     container_name: nginx_static_server
     ports:
-      - "80" # Внешний порт 80 мапится на внутренний порт 80 Nginx
+      - "3000:80" # Внешний порт 80 мапится на внутренний порт 80 Nginx
     volumes:
       - ./static:/usr/share/nginx/html # Монтируем статические файлы
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf # Монтируем конфигурацию Nginx
