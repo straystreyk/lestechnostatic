@@ -3,8 +3,19 @@ services:
     image: nginx:1.27.3-alpine3.20-otel
     container_name: nginx_static_server
     ports:
-      - "80:80" # Внешний порт 8080 мапится на внутренний порт 80 Nginx
+      - "80:80" # Внешний порт 80 мапится на внутренний порт 80 Nginx
     volumes:
       - ./static:/usr/share/nginx/html:ro # Монтируем статические файлы
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro # Монтируем конфигурацию Nginx
+      - ./nginx/certbot/conf:/etc/letsencrypt  # Монтируем папку с сертификатами
+      - ./nginx/certbot/www:/var/www/certbot  # Папка для временных файлов для верификации
+    restart: always
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot
+    volumes:
+      - ./nginx/certbot/conf:/etc/letsencrypt  # Храним сертификаты в этом каталоге
+      - ./nginx/certbot/www:/var/www/certbot  # Для веб-верификации домена
+    # entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     restart: always
